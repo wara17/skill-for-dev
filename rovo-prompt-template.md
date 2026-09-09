@@ -1,8 +1,10 @@
 # Rovo Prompt Template — ดึง Spec จาก Confluence
 
 ใช้ตอนขั้นตอน manual ก่อนเรียกสกิล `obsidian-spec-sync` (ดู `README-obsidian-spec-sync.md`
-สำหรับ context เต็ม) — วางใน Rovo Chat (หรือยิงผ่าน MCP) แล้วแก้ 3 ที่: ชื่อ service, ชื่อ
-Confluence space, และ keyword ให้ตรงกับ `docs/.service-map.json` ของ repo
+สำหรับ context เต็ม) — วางใน Rovo Chat (หรือยิงผ่าน MCP) แล้วแก้ค่าตาม service ที่ต้องการ:
+`{SERVICE_NAME}` → `confluence_space` และ `{KEYWORD_LIST}` → `confluence_keywords` ตรงจาก
+entry ของ service นั้นใน `docs/.service-map.json` (จำนวน keyword ไม่จำกัด ใส่กี่ตัวก็ได้
+ตามที่มีจริงในไฟล์ ไม่ต้องพอดี 3 ตัว)
 
 ยิงเฉพาะตอน Confluence page เปลี่ยนเท่านั้น — ถ้า code เปลี่ยนอย่างเดียว ข้าม prompt นี้ไปเลย
 แล้วเรียกสกิล `obsidian-spec-sync` แบบ "code-only refresh" แทน
@@ -11,7 +13,7 @@ Confluence space, และ keyword ให้ตรงกับ `docs/.service-m
 รวบรวมและสรุปข้อมูลทั้งหมดเกี่ยวกับ service "{SERVICE_NAME}"
 จาก Confluence space "{CONFLUENCE_SPACE}"
 
-ค้นหา page ที่เกี่ยวข้องโดยใช้ keyword: {KEYWORD_1}, {KEYWORD_2}, {KEYWORD_3}
+ค้นหา page ที่เกี่ยวข้องโดยใช้ keyword: {KEYWORD_LIST}
 
 สำหรับแต่ละ page ที่พบ ให้:
 1. ระบุ title, URL, และวันที่แก้ไขล่าสุด (last modified)
@@ -50,16 +52,23 @@ last_synced: [วันที่วันนี้]
 ---
 ```
 
-## ตัวอย่างที่ใส่ค่าแล้ว (payment-service)
+## ตัวอย่างการแทนค่า (payment-service)
 
+จาก `.service-map.json` ตัวอย่าง:
+```json
+"payment-service": {
+  "confluence_space": "PAYM",
+  "confluence_keywords": ["payment", "payment-service", "payment api"]
+}
 ```
-รวบรวมและสรุปข้อมูลทั้งหมดเกี่ยวกับ service "payment-service"
-จาก Confluence space "PAYM"
 
-ค้นหา page ที่เกี่ยวข้องโดยใช้ keyword: payment, payment-service, payment api
+แทนค่าลง template ด้านบนได้ตรงๆ:
+- `{SERVICE_NAME}` → `payment-service`
+- `{CONFLUENCE_SPACE}` → `PAYM`
+- `{KEYWORD_LIST}` → `payment, payment-service, payment api`
 
-...(เนื้อหาที่เหลือเหมือน template ด้านบนทุกประการ)...
-```
+ส่วนที่เหลือของ prompt (คำสั่ง 1-3, โครงสร้าง output, frontmatter) คงเดิมทุกตัวอักษร ไม่ต้อง
+แก้อะไรเพิ่ม
 
 ## หลังได้ output จาก Rovo
 

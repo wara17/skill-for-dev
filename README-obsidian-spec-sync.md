@@ -52,10 +52,24 @@ vault" → เลือก `your-repo/docs/`
 
 ### 1. เช็คว่าต้อง sync ไหม
 
-- Confluence page ล่าสุด `lastModified` เปลี่ยนจาก `docs/.sync-state.json` หรือไม่
-- ไฟล์ใน `repo_path` มีการแก้ไขหลังวันที่ sync ล่าสุดใน `.sync-state.json` หรือไม่ (ดูวันที่
-  แก้ไขไฟล์ล่าสุด/`git log -1` ก็ได้ตามสะดวก — ขั้นตอนนี้เป็นการเช็คของคนเอง สกิลเองไม่ยุ่ง
-  กับ git)
+`docs/.sync-state.json` (เขียนโดยสกิลเองในขั้นตอนที่ 3) มีโครงสร้างแบบนี้ต่อ service:
+
+```json
+{
+  "payment-service": {
+    "confluence_last_synced": "2026-09-01",
+    "source_pages": ["https://..."],
+    "code_verified_date": "2026-09-09",
+    "vault_last_written": "2026-09-09"
+  }
+}
+```
+
+เช็คสองอย่างเทียบกับค่าที่บันทึกไว้นี้:
+- Confluence page ที่เกี่ยวข้องมี `lastModified` ใหม่กว่า `confluence_last_synced` หรือไม่
+  (เช็คจาก Confluence UI/API เอง)
+- ไฟล์ใน `repo_path` มีการแก้ไขหลังวันที่ `code_verified_date` หรือไม่ (ดูวันที่แก้ไขไฟล์
+  ล่าสุด/`git log -1` ก็ได้ตามสะดวก — ขั้นตอนนี้เป็นการเช็คของคนเอง สกิลเองไม่ยุ่งกับ git)
 
 ถ้าไม่มีอะไรเปลี่ยนเลย ข้ามได้ ไม่ต้องเสีย Rovo credit และไม่ต้องเรียกสกิลนี้
 
