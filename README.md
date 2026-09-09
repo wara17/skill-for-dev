@@ -10,7 +10,6 @@
 | `dev-workflow` | English | Pipeline หลักสำหรับ implement/fix/change โค้ดตาม requirement — ครอบคลุมตั้งแต่เข้าใจ requirement, gap check, วางแผน, implement, test, ไปจนถึงสรุปงาน |
 | `dev-workflow-th` | ภาษาไทย | เนื้อหาเดียวกับ `dev-workflow` ทุกประการ แปลเป็นไทยทั้งฉบับ |
 | `requirement-version-resolver` | English | ตัวช่วยแกะ requirement จาก Jira/Confluence ที่ใช้สี/ขีดฆ่าบอก version ให้กลายเป็นข้อความสะอาดก่อนส่งต่อ |
-| `obsidian-spec-sync` | English | รับ spec summary (จาก Rovo/Confluence) มา verify กับโค้ดจริง, สกัด test case, สร้าง diagram, แล้วเขียนลง Obsidian vault ใน `docs/` — ไม่ยุ่งกับ Confluence/Rovo เอง (ขั้นตอนนั้นยังเป็น manual ตาม `README-obsidian-spec-sync.md`) และไม่ commit/push ให้อัตโนมัติ |
 
 ## ความสัมพันธ์ระหว่างสกิล
 
@@ -73,10 +72,7 @@ trigger phrase ในสองไฟล์คล้ายกันมาก (ต
   Kotlin/Spring Boot เพราะ `dev-workflow` พึ่งพา `CODEBASE.md` โดยตรง
 - `README-codebase-summary-kt-springboot.md` — คู่มือฉบับเต็มของสกิลด้านบน อธิบาย mode
   Generate/Update, การเชื่อมกับ Copilot, และกลไกดูแลตัวเองไม่ให้เก่า
-- `obsidian-spec-sync.skill` — สกิลแยกต่างหาก **ไม่ได้อยู่ใน pipeline ของ `dev-workflow`**
-  ใช้สำหรับ sync ความรู้จาก Confluence (ผ่าน Rovo) เข้า Obsidian vault พร้อม verify กับโค้ด
-  จริงและ extract test case — ไม่แตะ git เลย (ไม่ commit/push เอง ไม่ใช้ commit hash) —
-  ดูคู่มือเต็มที่ `README-obsidian-spec-sync.md`
-- `README-obsidian-spec-sync.md` — คู่มือฉบับเต็มของสกิลด้านบน
-- `rovo-prompt-template.md` — prompt สำหรับขั้นตอน manual ที่ยิงไปที่ Rovo/Confluence
-  (สกิล `obsidian-spec-sync` เองไม่คุยกับ Confluence/Rovo โดยตรง ขั้นตอนนี้ต้องทำแยก)
+
+`obsidian-spec-sync` เป็นสกิลแยกต่างหาก ไม่เกี่ยวกับ pipeline ของ `dev-workflow` เลย —
+เอกสารทั้งหมดของมัน (`obsidian-spec-sync.skill`, `rovo-prompt-template.md`) อยู่ใน
+`README-obsidian-spec-sync.md` ของตัวเอง ไม่ปนกับ README นี้
