@@ -75,6 +75,8 @@ trigger phrase ในสองไฟล์คล้ายกันมาก (ต
   Generate/Update, การเชื่อมกับ Copilot, และกลไกดูแลตัวเองไม่ให้เก่า
 - `obsidian-spec-sync.skill` — สกิลแยกต่างหาก **ไม่ได้อยู่ใน pipeline ของ `dev-workflow`**
   ใช้สำหรับ sync ความรู้จาก Confluence (ผ่าน Rovo) เข้า Obsidian vault พร้อม verify กับโค้ด
-  จริงและ extract test case — ดูคู่มือเต็มที่ `README-obsidian-spec-sync.md`
-- `README-obsidian-spec-sync.md` — คู่มือฉบับเต็มของสกิลด้านบน รวม prompt template สำหรับ
-  ขั้นตอน manual ที่ยิงไปที่ Rovo (สกิลเองไม่คุยกับ Confluence/Rovo โดยตรง)
+  จริงและ extract test case — ไม่แตะ git เลย (ไม่ commit/push เอง ไม่ใช้ commit hash) —
+  ดูคู่มือเต็มที่ `README-obsidian-spec-sync.md`
+- `README-obsidian-spec-sync.md` — คู่มือฉบับเต็มของสกิลด้านบน
+- `rovo-prompt-template.md` — prompt สำหรับขั้นตอน manual ที่ยิงไปที่ Rovo/Confluence
+  (สกิล `obsidian-spec-sync` เองไม่คุยกับ Confluence/Rovo โดยตรง ขั้นตอนนี้ต้องทำแยก)

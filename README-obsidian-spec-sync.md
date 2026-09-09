@@ -17,6 +17,11 @@
 input เป็น markdown ที่มีอยู่แล้วเท่านั้น ส่วนขั้นตอนดึงข้อมูลจาก Confluence ยังเป็น manual
 ตามคู่มือด้านล่าง
 
+สกิลนี้**ไม่แตะ git เลยในเวอร์ชันนี้** — ไม่รัน `git log`/`commit`/`push` และไม่ใช้ commit
+hash ใน field ไหนเลย tracking ทั้งหมดใช้วันที่ (`code_verified_date`,
+`last_extracted_date`, timestamp ใน `.sync-state.json`) แทน ถ้าจะเพิ่ม commit-based
+tracking กลับมาทีหลังค่อยแก้ `obsidian-spec-sync/SKILL.md` เพิ่มเอง
+
 ## ที่มา
 
 สกิลนี้แยกมาจาก pipeline "Obsidian Knowledge Base" เดิมที่รวม Rovo (อ่าน Confluence) กับ
@@ -48,7 +53,9 @@ vault" → เลือก `your-repo/docs/`
 ### 1. เช็คว่าต้อง sync ไหม
 
 - Confluence page ล่าสุด `lastModified` เปลี่ยนจาก `docs/.sync-state.json` หรือไม่
-- `git log -1` ของ `repo_path` เทียบ commit ที่บันทึกไว้ล่าสุดใน `.sync-state.json`
+- ไฟล์ใน `repo_path` มีการแก้ไขหลังวันที่ sync ล่าสุดใน `.sync-state.json` หรือไม่ (ดูวันที่
+  แก้ไขไฟล์ล่าสุด/`git log -1` ก็ได้ตามสะดวก — ขั้นตอนนี้เป็นการเช็คของคนเอง สกิลเองไม่ยุ่ง
+  กับ git)
 
 ถ้าไม่มีอะไรเปลี่ยนเลย ข้ามได้ ไม่ต้องเสีย Rovo credit และไม่ต้องเรียกสกิลนี้
 
@@ -59,50 +66,8 @@ vault" → เลือก `your-repo/docs/`
 
 ### 2. Prompt สำหรับ Rovo (ยิงเฉพาะตอน Confluence เปลี่ยน)
 
-เปิด Rovo Chat (หรือยิงผ่าน MCP) แล้ววาง prompt นี้ ใส่ค่าตาม service ที่ต้องการ:
-
-```
-รวบรวมและสรุปข้อมูลทั้งหมดเกี่ยวกับ service "payment-service"
-จาก Confluence space "PAYM"
-
-ค้นหา page ที่เกี่ยวข้องโดยใช้ keyword: payment, payment-service, payment api
-
-สำหรับแต่ละ page ที่พบ ให้:
-1. ระบุ title, URL, และวันที่แก้ไขล่าสุด (last modified)
-2. สรุปเนื้อหาสำคัญแบบไม่ตัดรายละเอียดที่จำเป็นต่อการ implement
-   (เช่น API endpoint, request/response schema, business rule,
-   edge case, error handling)
-3. ถ้ามีหลาย page ที่เนื้อหาซ้ำหรือขัดแย้งกัน ให้ flag ไว้ชัดเจน
-   พร้อมระบุว่า page ไหนดูเหมือนเป็นเวอร์ชันล่าสุด/authoritative
-
-จัดกลุ่มผลลัพธ์ทั้งหมดเป็นโครงสร้างนี้:
-
-## Overview
-[สรุปภาพรวมว่า service นี้ทำอะไร]
-
-## API Specification
-[รวม endpoint ทั้งหมดที่เจอจากทุก page ไม่ซ้ำกัน]
-
-## Business Rules
-[กฎทางธุรกิจที่เกี่ยวข้อง]
-
-## Data Model
-[schema/entity ที่เกี่ยวข้อง]
-
-## Source Pages
-[list ของทุก page ที่ใช้อ้างอิง พร้อม URL + last modified date]
-
-## Conflicts/Ambiguity Found
-[ถ้ามี page ที่ขัดแย้งกัน ระบุตรงนี้]
-
-Output เป็น Markdown format พร้อม YAML frontmatter ด้านบนสุด:
----
-service: payment-service
-confluence_space: PAYM
-source_pages: [list of URLs]
-last_synced: [วันที่วันนี้]
----
-```
+Prompt เต็มอยู่ที่ `rovo-prompt-template.md` — เปิด Rovo Chat (หรือยิงผ่าน MCP) แล้ววาง prompt
+จากไฟล์นั้น ใส่ค่า service/space/keyword ตามที่ต้องการ
 
 **ผลที่ได้**: markdown 1 ก้อน (spec summary) — เก็บไว้แล้วแนบให้ Copilot ในขั้นตอนถัดไป
 
